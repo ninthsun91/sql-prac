@@ -1,28 +1,28 @@
-// imports
 import express from "express";
+import env from "./config.js";
 
-import userRouter from "./routes/userRoute.js";
+import sequelize from "./db/config.js";
+
+import userRouter from "./api/routes/user.js";
 
 const app = express();
-const PORT = 3000;
+const PORT = env.PORT;
 
 
-// view engine
 
-// statics
-
-// middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
-// routers
 app.use("/user", userRouter);
 
 
-// error handlers
+try {
+    await sequelize.authenticate();
 
-// listen
-app.listen(PORT, ()=>{
-    console.log(`Server running on PORT ${PORT}`);
-});
+    app.listen(PORT, ()=>{
+        console.log(`Server running on PORT ${PORT}`);
+    });
+} catch (error) {
+    console.error(`Unable to connect to the DB: ${error}`);
+    process.exit(0);
+}
