@@ -1,4 +1,5 @@
 import * as Todo from "../../db/dal/todo.js";
+import joi from "../../middlewares/validation.js";
 
 
 export async function getTodoList(req, res, next) {
@@ -19,14 +20,15 @@ export async function getTodoList(req, res, next) {
 
 export async function createTodo(req, res, next) {
     console.log("CONTROLLER CREATETODO");
-    const userId = 1    // from auth. cookie? locals?
-
-    // res.send("CREATE TODO")
+    
     try {
+        const { userId } = res.locals.user;
+        const { content } = await joi.todoPostSchema.validateAsync(req.body);
         const order = await Todo.findLast();
+        
         const todo = {
             userId,
-            content: req.body.content,
+            content,
             order
         }
         const result = await Todo.createOne(todo);

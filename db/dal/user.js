@@ -31,5 +31,5 @@ export async function findUser(ID) {
     }
 
     const user = await UserModel.findOne(query);
-    return user.get();
+    return user!==null ? user.get() : null;
 }

@@ -8,7 +8,7 @@ export default {
 
         return jwt.sign(payload, env.JWT_KEY, {
             algorithm: "HS256",
-            expiresIn: 60,
+            expiresIn: 60*10,
         });
     },
     verify: (accessToken)=>{
@@ -34,18 +34,15 @@ export default {
 
         return jwt.sign({}, env.JWT_KEY, {
             algorithm: "HS256",
-            expiresIn: 60*60*24,
+            expiresIn: 60*60,
         });
     },
-    refreshVerify: (refreshToken, payload)=>{
+    refreshVerify: function(refreshToken, payload) {
         console.log("VERIFY REFRESHTOKEN");
         
         try {
             jwt.verify(refreshToken, env.JWT_KEY);
-            const accessToken = jwt.sign(payload, env.JWT_KEY, {
-                algorithm: "HS256",
-                expiresIn: 20,
-            });
+            const accessToken = this.sign(payload);
 
             return {
                 tokenFlag: true,

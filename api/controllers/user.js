@@ -2,18 +2,20 @@ import bcrypt from "bcrypt";
 import env from "../../envConfig.js"
 import * as User from "../../db/dal/user.js";
 import jwt from "../../auth/jwt.js";
+import joi from "../../middlewares/validation.js";
 
 
 export async function signup(req, res, next) {
     console.log("CONTROLLER SIGNUP")
-    const { email, password, passwordConfirm, nickname } = req.body;    
-    if (password !== passwordConfirm) {
-        return res.status(400).send({
-            message: "PASSWORD != PASSWORDCONFIRM"
-        });
-    }
-    
     try {
+        const { email, password, passwordConfirm, nickname } 
+            = await joi.signupSchema.validateAsync(req.body);
+        if (password !== passwordConfirm) {
+            return res.status(400).send({
+                message: "PASSWORD != PASSWORDCONFIRM"
+            });
+        }
+    
         const user = {
             email,
             password: await bcrypt.hash(password, env.SALT_ROUND),
@@ -40,7 +42,7 @@ export async function signup(req, res, next) {
     } catch (error) {
         console.log("CONTROLLER ERROR")
         console.error(error);
-        res.status(500).json({
+        res.status(400).json({
             error: error.message,
             // message: error.parent.sqlMessage
         });
@@ -49,11 +51,11 @@ export async function signup(req, res, next) {
 
 export async function signin(req, res, next) {
     console.log("CONTROLLER SIGNIN");
-    const { email, password } = req.body
-
     try {
+        const { email, password } = await joi.signinSchema.validateAsync(req.body);
+
         const user = await User.findUser(email);    
-        if (user instanceof Error) {
+        if (user===null) {
             return res.status(400).json({
                 message: "CANNOT FIND EMAIL"
             });
@@ -84,7 +86,7 @@ export async function signin(req, res, next) {
     } catch (error) {
         console.log("CONTROLLER ERROR")
         console.error(error);
-        res.status(500).json({
+        res.status(400).json({
             error: error.message
         });
     }

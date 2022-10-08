@@ -1,9 +1,9 @@
-import jwt from "./jwt.js";
+import jwt from "../auth/jwt.js";
 import { findUser } from "../db/dal/user.js";
 
 export default async function authMiddleware(req, res, next) {
     console.log("AUTHMIDDLEWARE");
-    const { authorization } = req.headers;
+    const { authorization, refreshToken } = req.headers;
     const [tokentype, accessToken] = (authorization || "").split(" ");
 
     if (!accessToken || tokentype !== "Bearer") {
@@ -18,7 +18,6 @@ export default async function authMiddleware(req, res, next) {
         res.locals.user = payload;
         return next();
     } else {
-        const refreshToken = req.headers.refresh;
         const userId = req.session[refreshToken];
         if (userId === undefined) {
             res.status(401).json({
