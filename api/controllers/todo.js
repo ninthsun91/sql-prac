@@ -21,6 +21,7 @@ export async function createTodo(req, res, next) {
     console.log("CONTROLLER CREATETODO");
     const userId = 1    // from auth. cookie? locals?
 
+    // res.send("CREATE TODO")
     try {
         const order = await Todo.findLast();
         const todo = {

@@ -52,7 +52,7 @@ export async function findLast() {
         if (todo === null) {
             return 1;
         }
-        console.log(todo.get());
+
         return todo.get().order +1;        
     } catch (error) {
         console.log("DAL ERROR");
