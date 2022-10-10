@@ -2,23 +2,29 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../config.js";
 
 
-class Todo extends Model {};
+class Todo extends Model {
+    static associate(models) {
+        this.belongsTo(models.Users, {
+            foreignKey: "userId",
+        });
+    }
+};
 
 Todo.init({
     todoId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.SMALLINT.UNSIGNED,
         autoIncrement: true,
         primaryKey: true,
     },
     userId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.SMALLINT.UNSIGNED,
         references: {
             model: "Users",
             key: "userId"
         }
     },
     content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT("medium"),
         allowNull: false,
     },
     done: {
@@ -37,5 +43,9 @@ Todo.init({
     paranoid: true,
 });
 
+// (async()=>{
+//     console.log("SYNC TODO");
+//     await Todo.sync({ alter: true });
+// })();
 
 export default Todo;

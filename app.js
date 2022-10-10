@@ -26,7 +26,8 @@ app.use(session({
 }));
 
 app.use("/todo", todoRouter);
-app.use("/user", userRouter);
+app.use("/", userRouter);
+
 
 
 try {

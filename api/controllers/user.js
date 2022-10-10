@@ -6,7 +6,8 @@ import joi from "../../middlewares/validation.js";
 
 
 export async function signup(req, res, next) {
-    console.log("CONTROLLER SIGNUP")
+    console.log("CONTROLLER SIGNUP")   
+
     try {
         const { email, password, passwordConfirm, nickname } 
             = await joi.signupSchema.validateAsync(req.body);

@@ -6,6 +6,11 @@ export async function getTodoList(req, res, next) {
     try {
         const todoList = await Todo.findAll();
     
+        if (todoList instanceof Error) {
+            return res.status(500).json({
+                error: todoList
+            })
+        }
         res.status(200).json({
             todoList,
             message: "SUCCESS"

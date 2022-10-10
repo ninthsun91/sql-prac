@@ -8,7 +8,8 @@ export async function findAll() {
     try {
         const todoList = await TodoModel.findAll({
             order: [["order", "DESC"]],
-            attributes: ["todoId", "userId", "content", "done", "order"]
+            attributes: ["todoId", "userId", "content", "done", "order"],
+            include: ["Users"]
         });
         const newList = todoList.map((todo)=>{
             return todo.get();
@@ -17,6 +18,7 @@ export async function findAll() {
         return newList;
     } catch (error) {
         console.log("DAL ERROR");
+        console.error(error);
         return error;
     }
 }
