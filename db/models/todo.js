@@ -45,7 +45,7 @@ Todo.init({
 
 // (async()=>{
 //     console.log("SYNC TODO");
-//     await Todo.sync({ alter: true });
+//     await Todo.sync();
 // })();
 
 export default Todo;

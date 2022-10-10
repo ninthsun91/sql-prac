@@ -8,7 +8,7 @@ export async function getTodoList(req, res, next) {
     
         if (todoList instanceof Error) {
             return res.status(500).json({
-                error: todoList
+                error: todoList.message
             })
         }
         res.status(200).json({

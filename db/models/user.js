@@ -18,12 +18,12 @@ User.init({
         primaryKey: true
     },
     email: {
-        type: DataTypes.TEXT("tiny"),
+        type: DataTypes.STRING(40),
         unique: true,
         allowNull: false,
     },
     password: {
-        type: DataTypes.TEXT("tiny"),
+        type: DataTypes.STRING,
         allowNull: false
     },
     nickname: {

@@ -1,5 +1,6 @@
 import sequelize from "../config.js";
 import TodoModel from "../models/todo.js";
+import UserModel from "../models/user.js";
 
 
 export async function findAll() {
@@ -9,7 +10,10 @@ export async function findAll() {
         const todoList = await TodoModel.findAll({
             order: [["order", "DESC"]],
             attributes: ["todoId", "userId", "content", "done", "order"],
-            include: ["Users"]
+            include: {
+                model: UserModel,
+                // association: "Users",
+            }
         });
         const newList = todoList.map((todo)=>{
             return todo.get();
