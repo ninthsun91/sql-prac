@@ -7,7 +7,8 @@ const router = Router();
 
 router.get("/", Todo.getTodoList);
 
-router.post("/", authMiddleware, Todo.createTodo);
+// router.post("/", authMiddleware, Todo.createTodo);
+router.post("/", Todo.createTodo);
 
 router.get("/done/:todoId", authMiddleware, Todo.toggleDone);
 

@@ -27,7 +27,7 @@ export async function createTodo(req, res, next) {
     console.log("CONTROLLER CREATETODO");
     
     try {
-        const { userId } = res.locals.user;
+        const { userId } = res.locals.user || { userId: 1 };
         const { content } = await joi.todoPostSchema.validateAsync(req.body);
         const order = await Todo.findLast();
         
