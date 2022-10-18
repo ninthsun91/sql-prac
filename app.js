@@ -29,6 +29,8 @@ app.use("/todo", todoRouter);
 app.use("/", userRouter);
 
 
+// test
+
 
 try {
     await sequelize.authenticate();

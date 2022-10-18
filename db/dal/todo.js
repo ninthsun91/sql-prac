@@ -10,10 +10,7 @@ export async function findAll() {
         const todoList = await TodoModel.findAll({
             order: [["order", "DESC"]],
             attributes: ["todoId", "userId", "content", "done", "order"],
-            include: {
-                model: UserModel,
-                // association: "Users",
-            }
+            include: ["Users"]
         });
         const newList = todoList.map((todo)=>{
             return todo.get();

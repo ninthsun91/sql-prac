@@ -10,7 +10,7 @@ class User extends Model {
         });
     }
 };
-
+// adasd
 User.init({
     userId: {
         type: DataTypes.SMALLINT.UNSIGNED,
